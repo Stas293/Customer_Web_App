@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Library</title>
+    <th:block th:insert="~{fragment :: head}"></th:block>
+    <link rel="stylesheet" type="text/css" th:href="@{css/main-page-style.css}">
+</head>
+<body>
+<div th:insert="~{fragment :: header}"></div>
+<div class="container main-content">
+    <div id="carouselExampleControls" class="box-slider">
+        <div class="carousel-inner" role="listbox">
+            <div class="first-section">
+                <div class="dtab">
+                    <div class="container">
+                        <div class="col-md-12 col-sm-12">
+                            <h2><strong th:text="#{app.title}"/></strong>
+                                <span th:text="#{app.page.header.company}"/></h2>
+                            <p class="lead" th:text="#{app.slogan}"/></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:insert="~{fragment :: footer}"></div>
+</body>
+</html>

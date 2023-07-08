@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <th:block th:insert="~{fragment :: head}"></th:block>
+    <link rel="stylesheet" th:href="@{//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css}">
+    <script th:src="@{https://code.jquery.com/ui/1.13.2/jquery-ui.js}"></script>
+    <script th:src="@{/js/jqueryui-search-city.js}"></script>
+    <script th:src="@{/js/signup-photo.js}"></script>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+</head>
+<body>
+<div th:insert="~{fragment :: header}"></div>
+<div class="container mt-5 main-content">
+    <h1 class="text-center mb-4" th:text="#{newUserRegistration.pageTitle}"/>
+    <form th:method="POST" th:object="${user}" th:action="@{/register}" enctype="multipart/form-data">
+        <p th:text="#{newUserRegistration.message.allFieldsRequired}"/>
+        <div class="mb-3">
+            <label for="username" th:text="#{newUserRegistration.label.login}"/>
+            <input required name="username" type="text" class="form-control" id="username" th:value="*{username}">
+
+            <th:block th:if="${#fields.hasErrors('username')}">
+                <div class="alert alert-danger" th:each="err : ${#fields.errors('username')}" th:text="${err}"></div>
+            </th:block>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label" th:text="#{newUserRegistration.label.password}"/>
+            <input required name="password" type="password" class="form-control" id="password">
+            <th:block th:if="${#fields.hasErrors('password')}">
+                <div class="alert alert-danger" th:each="err : ${#fields.errors('password')}" th:text="${err}"></div>
+            </th:block>
+        </div>
+        <div class="mb-3">
+            <label for="confirmPassword" class="form-label" th:text="#{newUserRegistration.label.confirmPassword}"/>
+            <input required name="confirmPassword" type="password" class="form-control" id="confirmPassword">
+            <th:block th:if="${#fields.hasErrors('confirmPassword')}">
+                <div class="alert alert-danger" th:each="err : ${#fields.errors('confirmPassword')}"
+                     th:text="${err}"></div>
+            </th:block>
+        </div>
+        <div class="mb-3">
+            <label for="firstName" class="form-label" th:text="#{newUserRegistration.label.firstName}"/>
+            <input required name="firstName" type="text" class="form-control" id="firstName" th:value="*{firstName}">
+            <th:block th:if="${#fields.hasErrors('firstName')}">
+                <div class="alert alert-danger" th:each="err : ${#fields.errors('firstName')}" th:text="${err}"></div>
+            </th:block>
+        </div>
+        <div class="mb-3">
+            <label for="lastName" class="form-label" th:text="#{newUserRegistration.label.lastName}"/>
+            <input required name="lastName" type="text" class="form-control" id="lastName" th:value="*{lastName}">
+            <th:block th:if="${#fields.hasErrors('lastName')}">
+                <div class="alert alert-danger" th:each="err : ${#fields.errors('lastName')}" th:text="${err}"></div>
+            </th:block>
+        </div>
+        <input class="form-control" id="image" name="image" onchange="previewImage()"
+               onclick="removePicture()" type="file" value="Image">
+        <img alt="Preview Image" id="preview" src="#" class="hide">
+        <div class="mb-3">
+            <label for="email" class="form-label" th:text="#{newUserRegistration.label.email}"/>
+            <input required name="email" type="email" class="form-control" id="email" th:value="*{email}">
+            <th:block th:if="${#fields.hasErrors('email')}">
+                <div class="alert alert-danger" th:each="err : ${#fields.errors('email')}" th:text="${err}"></div>
+            </th:block>
+        </div>
+        <div class="mb-3">
+            <label for="address" class="form-label" th:text="#{newUserRegistration.label.address}"/>
+            <input required name="address" type="text" class="form-control" id="address" th:value="*{address}">
+            <th:block th:if="${#fields.hasErrors('address')}">
+                <div class="alert alert-danger" th:each="err : ${#fields.errors('address')}" th:text="${err}"></div>
+            </th:block>
+        </div>
+        <label for="choices" class="form-label" th:text="#{newUserRegistration.label.city}"/>
+        <input type="text" class="form-control" id="choices" placeholder="Start entering city ...">
+        <ul id="items-list"></ul>
+        <input type="hidden" name="city" id="items-input" required/>
+        <div class="form-group mb-3">
+            <label hidden="hidden" id="recaptchaLabel" th:text="#{newUserRegistration.input.recaptcha}"/>
+            <div th:class="g-recaptcha" th:name="captcha" th:attr="data-sitekey=${@environment.getProperty('google.recaptcha.key.site-key')}"></div>
+            <th:block th:if="${#fields.hasErrors('captchaResponse')}">
+                <div class="alert alert-danger" th:each="err : ${#fields.errors('captchaResponse')}"
+                     th:text="${err}"></div>
+            </th:block>
+        </div>
+        <div class="form-group">
+            <button type="submit" id="form-submit" class="btn btn-primary" th:text="#{newUserRegistration.label.submit}"/>
+        </div>
+    </form>
+</div>
+<div th:insert="~{fragment :: footer}"></div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('form').submit(function () {
+            if (grecaptcha.getResponse() === '') {
+                alert(document.getElementById('recaptchaLabel').innerText);
+                return false;
+            }
+            if ($('#items-list').children().length === 0) {
+                alert("Please select city from the list");
+                return false;
+            }
+            if ($('#password').val() !== $('#confirmPassword').val()) {
+                alert("Passwords don't match");
+                return false;
+            }
+            $(':submit', this).attr('disabled', 'disabled');
+        });
+    });
+</script>
+</body>
+</html>

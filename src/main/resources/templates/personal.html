@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <th:block th:insert="~{fragment :: head}"></th:block>
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <title>Personal</title>
+</head>
+<body id="personal">
+<header th:insert="~{fragment :: header}"></header>
+<div class="container main-content">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb bg-dark rounded">
+            <li class="breadcrumb-item"><a href="/" class="text-light">
+                <span th:text="#{home.pageTitle}"></span>
+            </a>
+            </li>
+        </ol>
+    </nav>
+    <h1>
+        <span th:text="#{personal.pageTitle}"></span>
+    </h1>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="mb-3 row">
+                <label for="login" class="col-sm-2 col-form-label" th:text="#{user.login}"></label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="login" th:value="${authority.username}" disabled>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="firstName" class="col-sm-2 col-form-label" th:text="#{user.firstName}"></label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="firstName" th:value="${authority.personalInfoFirstName}"
+                           disabled>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="lastName" class="col-sm-2 col-form-label" th:text="#{user.lastName}"></label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="lastName" th:value="${authority.personalInfoLastName}"
+                           disabled>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="email" class="col-sm-2 col-form-label" th:text="#{user.email}"></label>
+                <div class="col-sm-10">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="email" th:value="${authority.personalInfoEmail}"
+                               disabled>
+                        <a th:href="'mailto:' + ${authority.personalInfoEmail}" class="btn btn-primary">Email</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-3 row">
+                <label for="phone" class="col-sm-2 col-form-label" th:text="#{user.dateOfCreation}"></label>
+                <div class="col-sm-10">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="phone"
+                               th:value="${authority.personalInfoDateOfCreation}" disabled>
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="addressStreet" class="col-sm-2 col-form-label" th:text="#{user.addressStreet}"></label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="addressStreet" th:value="${authority.addressStreet}"
+                           disabled>
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="addressCityName" class="col-sm-2 col-form-label" th:text="#{user.addressCityName}"></label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="addressCityName" th:value="${authority.addressCityName}"
+                           disabled>
+                </div>
+            </div>
+            <div class="image-container">
+                <img th:src="@{/api/v1/user/image}" alt="user image" class="img-thumbnail" width="500" th:if="${authority.imagePath}">
+                <div class="middle">
+                    <div class="text">
+                        <form th:method="PUT" th:action="@{/api/v1/user/image}" enctype="multipart/form-data"
+                              id="uploadImage">
+                            <input type="file" name="file" id="file" class="inputfile" accept="image/*"/>
+                            <button for="file" class="btn btn-primary" th:text="#{userPage.uploadImage}"></button>
+                        </form>
+                    </div>
+                    <div class="text">
+                        <form th:method="DELETE" th:action="@{/user/image}" id="deleteImage">
+                            <button type="submit" class="btn btn-danger" th:text="#{userPage.deleteImage}"></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-between">
+        <a th:href="@{/user/edit}" class="btn btn-primary" th:text="#{userPage.editData}"></a>
+        <a th:href="@{/user/editPassword}" class="btn btn-primary" th:text="#{userPage.editPassword}"></a>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#uploadImage').submit(function (event) {
+            event.preventDefault();
+            var formData = new FormData($(this)[0]);
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: formData,
+                async: true,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function () {
+                    location.reload();
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

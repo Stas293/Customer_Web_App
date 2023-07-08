@@ -1,0 +1,3 @@
+singleServerConfig:
+  address: "redis://${REDIS_HOSTNAME}:6379"
+

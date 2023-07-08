@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <th:block th:insert="~{fragment :: head}"></th:block>
+</head>
+<body>
+<header th:insert="~{fragment :: header}"></header>
+<div class="container mt-5 main-content">
+    <h1 class="text-center mb-4" th:text="#{login.in.please}"></h1>
+    <form th:action="@{/login}" th:method="POST">
+        <div class="mb-3">
+            <label for="username" class="form-label" th:text="#{login.login}"></label>
+            <input type="text" class="form-control" id="username" name="username" aria-describedby="loginHelp"
+                   th:placeholder="#{login.login.input}">
+            <small id="loginHelp" class="form-text text-muted text-sm-start" th:text="#{login.never.share}"></small>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label" th:text="#{login.password}"></label>
+            <input type="password" class="form-control" id="password" name="password"
+                   th:placeholder="#{login.password.input}">
+        </div>
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary" th:text="#{login.in}"></button>
+        </div>
+    </form>
+    <hr>
+    <div>
+        <p>Login with:</p>
+        <a href="http://localhost:8080/oauth2/authorization/google" class="btn btn-outline-secondary">Google</a>
+    </div>
+</div>
+<div th:insert="~{fragment :: footer}"></div>
+</body>
+</html>
+

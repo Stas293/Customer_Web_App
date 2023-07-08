@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1688732523301-1" author="stasskorobogatov">
+        <createTable tableName="city">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_city"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="code" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1688732523301-2" author="stasskorobogatov">
+        <createTable tableName="role">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_role"/>
+            </column>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="code" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1688732523301-3" author="stasskorobogatov">
+        <createTable tableName="user_list">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_user_list"/>
+            </column>
+            <column name="username" type="VARCHAR(255)"/>
+            <column name="password" type="VARCHAR(255)"/>
+            <column name="image_path" type="VARCHAR(255)"/>
+            <column name="first_name" type="VARCHAR(255)"/>
+            <column name="last_name" type="VARCHAR(255)"/>
+            <column name="email" type="VARCHAR(255)"/>
+            <column name="date_of_creation" type="DATE"/>
+            <column name="street" type="VARCHAR(255)"/>
+            <column name="city_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1688732523301-4" author="stasskorobogatov">
+        <createTable tableName="user_role">
+            <column name="user_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_userrole"/>
+            </column>
+            <column name="role_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_userrole"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1688732523301-5" author="stasskorobogatov">
+        <addForeignKeyConstraint baseColumnNames="role_id" baseTableName="user_role"
+                                 constraintName="FK_USERROLE_ON_ROLE" referencedColumnNames="id"
+                                 referencedTableName="role"/>
+    </changeSet>
+    <changeSet id="1688732523301-6" author="stasskorobogatov">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="user_role"
+                                 constraintName="FK_USERROLE_ON_USER" referencedColumnNames="id"
+                                 referencedTableName="user_list"/>
+    </changeSet>
+    <changeSet id="1688732523301-7" author="stasskorobogatov">
+        <addForeignKeyConstraint baseColumnNames="city_id" baseTableName="user_list"
+                                 constraintName="FK_USER_LIST_ON_CITY" referencedColumnNames="id"
+                                 referencedTableName="city"/>
+    </changeSet>
+    <changeSet id="1688733156202-1" author="stasskorobogatov">
+        <insert tableName="city">
+            <column name="name" value="Kyiv"/>
+            <column name="code" value="KYIV"/>
+        </insert>
+        <insert tableName="city">
+            <column name="name" value="Lviv"/>
+            <column name="code" value="LVIV"/>
+        </insert>
+        <insert tableName="city">
+            <column name="name" value="Kharkiv"/>
+            <column name="code" value="KHARKIV"/>
+        </insert>
+        <insert tableName="city">
+            <column name="name" value="Odessa"/>
+            <column name="code" value="ODESSA"/>
+        </insert>
+        <insert tableName="city">
+            <column name="name" value="Dnipro"/>
+            <column name="code" value="DNIPRO"/>
+        </insert>
+        <insert tableName="city">
+            <column name="name" value="Zaporizhzhia"/>
+            <column name="code" value="ZAPORIZHZHIA"/>
+        </insert>
+        <insert tableName="city">
+            <column name="name" value="Kherson"/>
+            <column name="code" value="KHERSON"/>
+        </insert>
+        <insert tableName="city">
+            <column name="name" value="Mykolaiv"/>
+            <column name="code" value="MYKOLAIV"/>
+        </insert>
+        <insert tableName="city">
+            <column name="name" value="Vinnytsia"/>
+            <column name="code" value="VINNYTSIA"/>
+        </insert>
+        <insert tableName="city">
+            <column name="name" value="Chernivtsi"/>
+            <column name="code" value="CHERNIVTSI"/>
+        </insert>
+        <insert tableName="city">
+            <column name="name" value="Ivano-Frankivsk"/>
+            <column name="code" value="IVANO-FRANKIVSK"/>
+        </insert>
+        <insert tableName="city">
+            <column name="name" value="Ternopil"/>
+            <column name="code" value="TERNOPIL"/>
+        </insert>
+        <insert tableName="city">
+            <column name="name" value="Khmelnytskyi"/>
+            <column name="code" value="KHMELNYTSKYI"/>
+        </insert>
+        <insert tableName="city">
+            <column name="name" value="Cherkasy"/>
+            <column name="code" value="CHERKASY"/>
+        </insert>
+        <insert tableName="city">
+            <column name="name" value="Poltava"/>
+            <column name="code" value="POLTAVA"/>
+        </insert>
+        <insert tableName="city">
+            <column name="name" value="Sumy"/>
+            <column name="code" value="SUMY"/>
+        </insert>
+        <insert tableName="city">
+            <column name="name" value="Kropyvnytskyi"/>
+            <column name="code" value="KROPYVNYTSKYI"/>
+        </insert>
+        <insert tableName="city">
+            <column name="name" value="Zhytomyr"/>
+            <column name="code" value="ZHYTOMYR"/>
+        </insert>
+        <insert tableName="city">
+            <column name="name" value="Lutsk"/>
+            <column name="code" value="LUTSK"/>
+        </insert>
+        <insert tableName="city">
+            <column name="name" value="Rivne"/>
+            <column name="code" value="RIVNE"/>
+        </insert>
+    </changeSet>
+
+
+</databaseChangeLog>

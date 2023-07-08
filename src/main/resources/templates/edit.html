@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <th:block th:insert="~{fragment :: head}"></th:block>
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css}">
+    <script th:src="@{https://code.jquery.com/ui/1.13.2/jquery-ui.js}"></script>
+    <script th:src="@{/js/jqueryui-search-city.js}"></script>
+</head>
+<body>
+<header th:insert="~{fragment :: header}"></header>
+<div class="container main-content">
+    <ol class="breadcrumb list-group-item-dark rounded">
+        <li class="breadcrumb-item"><a href="/">[[#{home.pageTitle}]]</a></li>
+        <li class="breadcrumb-item active"><a href="/user/personal" th:text="#{personal.pageTitle}"></a></li>
+    </ol>
+    <h1>[[#{personal.edit.data}]]</h1>
+    <form class="form-floating" th:method="PUT" th:action="@{/user/personal}" th:object="${account}">
+        <p>[[#{personal.edit.data.allFieldsRequired}]]</p>
+        <input hidden name="id" th:value="*{id}">
+        <div class="mb-3">
+            <label for="personalInfoFirstName" th:text="#{personal.edit.data.firstName}"></label>
+            <input required name="personalInfoFirstName" type="text" class="form-control" id="personalInfoFirstName"
+                   th:value="*{personalInfoFirstName}">
+            <th:block th:if="${#fields.hasErrors('personalInfoFirstName')}">
+                <div class="alert alert-danger" th:each="err : ${#fields.errors('personalInfoFirstName')}"
+                     th:text="${err}"></div>
+            </th:block>
+        </div>
+        <div class="mb-3">
+            <label for="lastName">[[#{personal.edit.data.lastName}]]</label>
+            <input required name="personalInfoLastName" type="text" class="form-control" id="lastName"
+                   th:value="*{personalInfoLastName}">
+            <th:block th:if="${#fields.hasErrors('personalInfoLastName')}">
+                <div class="alert alert-danger" th:each="err : ${#fields.errors('personalInfoLastName')}"
+                     th:text="${err}"></div>
+            </th:block>
+        </div>
+        <div class="mb-3">
+            <label for="email">[[#{personal.edit.data.email}]]</label>
+            <input required name="personalInfoEmail" type="email" class="form-control" id="email" th:value="*{personalInfoEmail}">
+            <th:block th:if="${#fields.hasErrors('personalInfoEmail')}">
+                <div class="alert alert-danger" th:each="err : ${#fields.errors('personalInfoEmail')}"
+                     th:text="${err}"></div>
+            </th:block>
+        </div>
+        <div class="mb-3">
+            <label for="address">[[#{personal.edit.data.address}]]</label>
+            <input required name="addressStreet" type="text" class="form-control" id="address"
+                   th:value="*{addressStreet}">
+            <th:block th:if="${#fields.hasErrors('addressStreet')}">
+                <div class="alert alert-danger" th:each="err : ${#fields.errors('addressStreet')}"
+                     th:text="${err}"></div>
+            </th:block>
+        </div>
+        <div class="mb-3">
+            <label for="choices" class="form-label" th:text="#{personal.edit.data.city}"></label>
+            <input type="text" class="form-control" id="choices" placeholder="Start entering city ...">
+            <ul id="items-list">
+                <li th:data-id="*{city}">
+                    [[*{addressCityName}]]
+                </li>
+            </ul>
+            <input type="hidden" name="city" id="items-input" required/>
+        </div>
+        <div class="form-group">
+            <button type="submit" id="form-submit" class="btn btn-primary">
+                <span th:text="#{editBook.label.submit}"></span>
+            </button>
+        </div>
+        <div class="form-group">
+            <a class="btn btn-danger" href='/user/personal'>
+                <span th:text="#{editBook.label.close}"></span>
+            </a>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('form').submit(function () {
+            $(':submit', this).attr('disabled', 'disabled');
+        });
+    });
+</script>
+
+</body>
+</html>
